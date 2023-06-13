@@ -30,6 +30,7 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(SignIn.this, ButtomNavigation.class);
                 startActivity(intent);
+                //This is a comment
             }
         });
     }
