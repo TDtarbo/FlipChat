@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "579197113134",
+    "project_id": "flipchat-ecfa0",
+    "storage_bucket": "flipchat-ecfa0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579197113134:android:d264ba5feefd57c94fe0bf",
+        "android_client_info": {
+          "package_name": "com.codelink.flipchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579197113134-8c7tve3nqtbhr294995lhbkgffihu5kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbf9mISHj2O7ni5fe2QVG8Dq5g8If4gGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579197113134-8c7tve3nqtbhr294995lhbkgffihu5kq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
