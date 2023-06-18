@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/popUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="25dp">
+
+            <TextView
+                android:id="@+id/listName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="Mail sent!"
+                android:textColor="@color/accent"
+                android:fontFamily="@font/comfortaa_bold"
+                android:textSize="25sp"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/skipBtn"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/lottie12" />
+
+            <TextView
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:hint="Password reset link has been sent to your email address. Please check your inbox and follow the instructions to reset your password"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/doneBtn"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Done" />
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</RelativeLayout>
+
+
+
+

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.on_boarding.onBoarding"
+    tools:context=".on_boarding.onBoarding"
     android:layout_gravity="center">
 
     <TextView
@@ -63,7 +63,7 @@
 
     <Button
         android:id="@+id/signUpBtn"
-        android:layout_width="251dp"
+        android:layout_width="300dp"
         android:layout_height="46dp"
         android:layout_marginTop="36dp"
         android:background="@color/accent"
@@ -75,11 +75,11 @@
 
     <Button
         android:id="@+id/signInBtn"
-        android:layout_width="251dp"
+        android:layout_width="300dp"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
-        android:text="@string/sign_in"
+        android:text="Log-In"
         android:textColor="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

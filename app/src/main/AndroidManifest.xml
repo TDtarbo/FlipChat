@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,28 +17,47 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlipChat"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.bottom_navigation.ButtomNavigation"
-            android:exported="false"
-            android:label="@string/title_activity_buttom_navigation" />
+            android:name=".password_reset.ResetPassword"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http" android:host="www.flipchatapp.com"/>
+                <data android:scheme="https" android:host="www.flipchatapp.com"/>
+            </intent-filter>
+        </activity>
+
         <activity
-            android:name=".ui.sign_up.SignUp"
+            android:name=".password_reset.PasswordEmail"
             android:exported="false" />
         <activity
-            android:name=".ui.sign_in.SignIn"
+            android:name=".sign_up.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".bottom_tab_navigation.BottomTabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.LogIn"
             android:exported="false" /> <!-- Splash Screen -->
         <activity
-            android:name=".ui.splash_screen.SplashScreen"
+            android:name=".splash_screen.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+            <nav-graph android:value="@navigation/mobile_navigation" />
+
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity> <!-- onBoarding screen -->
         <activity
-            android:name=".ui.on_boarding.onBoarding"
+            android:name=".on_boarding.onBoarding"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- Sign in screen -->
         <meta-data
