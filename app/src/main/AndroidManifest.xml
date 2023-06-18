@@ -57,7 +57,7 @@
             </intent-filter>
         </activity> <!-- onBoarding screen -->
         <activity
-            android:name=".on_boarding.onBoarding"
+            android:name=".welcome.WelcomeActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- Sign in screen -->
         <meta-data

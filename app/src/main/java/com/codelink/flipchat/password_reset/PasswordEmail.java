@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -60,7 +59,7 @@ public class PasswordEmail extends AppCompatActivity {
 
         rootView.addView(overlayView, params);
 
-        View popupView = getLayoutInflater().inflate(R.layout.mail_status_popup, null);
+        View popupView = getLayoutInflater().inflate(R.layout.popup_mail_status, null);
 
         PopupWindow popupWindow = new PopupWindow(
                 popupView,

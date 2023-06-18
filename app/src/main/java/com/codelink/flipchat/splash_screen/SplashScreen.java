@@ -2,27 +2,27 @@ package com.codelink.flipchat.splash_screen;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.codelink.flipchat.R;
-import com.codelink.flipchat.on_boarding.onBoarding;
+import com.codelink.flipchat.welcome.WelcomeActivity;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash_screen_activity);
+        setContentView(R.layout.activity_splash_screen);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashScreen.this, onBoarding.class);
-                startActivity(intent);
-                finish();
-            }
+        //set delay to navigate
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(SplashScreen.this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
         }, 1800);
     }
 }
