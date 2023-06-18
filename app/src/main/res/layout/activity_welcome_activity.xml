@@ -5,30 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".on_boarding.onBoarding"
+    tools:context=".welcome.WelcomeActivity"
     android:layout_gravity="center">
-
-    <TextView
-        android:id="@+id/skipBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/skip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/accent"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/icon"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="80dp"
         android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skipBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.185"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/lottie11" />
@@ -39,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="Welcome to"
+        android:text="@string/welcome_to"
         android:textColor="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -67,25 +57,22 @@
         android:layout_height="46dp"
         android:layout_marginTop="36dp"
         android:background="@color/accent"
-        android:text="Sign-up"
+        android:text="@string/sign_up"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/signInBtn"
+        android:id="@+id/logInBtn"
         android:layout_width="300dp"
         android:layout_height="46dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
-        android:text="Log-In"
+        android:text="@string/log_in"
         android:textColor="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpBtn" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,22 +14,20 @@ import android.widget.TextView;
 import com.codelink.flipchat.R;
 import com.codelink.flipchat.bottom_tab_navigation.BottomTabActivity;
 import com.codelink.flipchat.password_reset.PasswordEmail;
+import com.codelink.flipchat.sign_up.SignUp;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class LogIn extends AppCompatActivity {
 
-    private Button loginBtn;
     private TextInputEditText userEmail, password;
-
     private FirebaseAuth firebaseAuth;
-
     private LinearLayout loginError;
-
-    private TextView forgotPwdBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +36,39 @@ public class LogIn extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        loginBtn = findViewById(R.id.loginBtn);
+        Button loginBtn = findViewById(R.id.loginBtn);
         userEmail = findViewById(R.id.userEmail);
         password = findViewById(R.id.password);
         loginError = findViewById(R.id.loginError);
-        forgotPwdBtn = findViewById(R.id.forgotPwdBtn);
+        TextView forgotPwdBtn = findViewById(R.id.forgotPwdBtn);
+        LinearLayout navigateToSignUpBtn = findViewById(R.id.navigateToSignUpBtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailInput = userEmail.getText().toString();
-                String passwordInput = password.getText().toString();
+        //setup onclick listener for login button
+        loginBtn.setOnClickListener(view -> {
+            String emailInput = Objects.requireNonNull(userEmail.getText()).toString();
+            String passwordInput = Objects.requireNonNull(password.getText()).toString();
 
-                userLogin(emailInput, passwordInput);
-            }
+            userLogin(emailInput, passwordInput);
         });
 
-        forgotPwdBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LogIn.this, PasswordEmail.class);
-                startActivity(intent);
+        //setup onclick listener for forgot password button
+        forgotPwdBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LogIn.this, PasswordEmail.class);
+            startActivity(intent);
 
-            }
+        });
+
+        //setup onclick listener for navigate to signup button
+        navigateToSignUpBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LogIn.this, SignUp.class);
+            startActivity(intent);
+            finish();
         });
     }
 
+    //handle user authentication with firebase
     public void userLogin(String email, String password){
 
         ProgressDialog progressDialog = new ProgressDialog(LogIn.this);
@@ -73,20 +76,14 @@ public class LogIn extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                Intent intent = new Intent(LogIn.this, BottomTabActivity.class);
-                progressDialog.dismiss();
-                startActivity(intent);
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                loginError.setVisibility(View.VISIBLE);
-            }
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+            Intent intent = new Intent(LogIn.this, BottomTabActivity.class);
+            progressDialog.dismiss();
+            startActivity(intent);
+            finish();
+        }).addOnFailureListener(e -> {
+            progressDialog.dismiss();
+            loginError.setVisibility(View.VISIBLE);
         });
     }
 }

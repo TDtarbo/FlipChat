@@ -6,22 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".sign_up.UserPersonalization">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:fontFamily="@font/comfortaa_bold"
-        android:gravity="center"
-        android:text="Personalize your,\n appearance"
-        android:textColor="@color/accent"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
+        android:id="@+id/personalizeContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -29,38 +15,51 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
+            android:text="@string/personalize_title"
+            android:textColor="@color/accent"
+            android:textSize="25sp" />
 
         <ImageView
             android:id="@+id/chooseImageBtn"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
+            android:layout_marginBottom="100dp"
             android:src="@drawable/baseline_add_a_photo_24"
-            android:layout_marginBottom="100dp"/>
+            android:contentDescription="@string/add_profile_photo" />
 
         <RelativeLayout
             android:id="@+id/imagePreview"
             android:layout_width="200dp"
             android:layout_height="240dp"
-            android:orientation="vertical"
             android:layout_marginBottom="50dp"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/choosedImage"
+                android:id="@+id/pickedImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/accent"/>
+                app:civ_border_color="@color/accent"
+                app:civ_border_width="2dp" />
 
 
             <ImageView
                 android:id="@+id/retryBtn"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:src="@drawable/baseline_replay_24"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"/>
+                android:src="@drawable/baseline_replay_24"
+                android:contentDescription="@string/picked_profile_photo" />
 
         </RelativeLayout>
 
@@ -68,7 +67,7 @@
             android:id="@+id/userNameLayout"
             android:layout_width="332dp"
             android:layout_height="wrap_content"
-            android:hint="User name"
+            android:hint="@string/user_name"
             app:colorControlActivated="@color/accent"
             app:colorControlNormal="@color/accent"
             app:hintTextColor="@color/accent"
@@ -95,7 +94,50 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="36dp"
-            android:text="Sign up"
+            android:text="@string/sign_up"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userAgreed" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/completeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
+            android:text="@string/all_set"
+            android:textColor="@color/accent"
+            android:textSize="25sp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/lottie13" />
+
+        <Button
+            android:id="@+id/navigateToLoginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/log_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"

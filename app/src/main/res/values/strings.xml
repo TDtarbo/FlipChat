@@ -18,4 +18,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_bottom_tab">BottomTabActivity</string>
+    <string name="welcome_to">Welcome to</string>
+    <string name="sign_up">Sign-up</string>
+    <string name="log_in">Log-In</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="privacy_policy">I agree to the Terms and Conditions and the Privacy Policy</string>
+    <string name="continue_text">Continue</string>
+    <string name="register_using">or register using,</string>
+    <string name="already_member">Already a member?</string>
+    <string name="background_image">Background image</string>
+    <string name="personalize_title">Personalize your,\n appearance</string>
+    <string name="add_profile_photo">Add profile photo</string>
+    <string name="picked_profile_photo">Picked profile photo</string>
+    <string name="user_name">User name</string>
+    <string name="all_set">You\'re all set!</string>
+    <string name="info_icon">Info icon</string>
+    <string name="auth_failed">Email or password is incorrect!</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="new_to">New to</string>
 </resources>
