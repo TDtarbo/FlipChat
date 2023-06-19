@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.codelink.flipchat.bottom_tab_navigation.ui.home.HomeFragment"
+        android:name="com.codelink.flipchat.bottom_tab_navigation.ui.chats.ChatsFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_chats" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.codelink.flipchat.bottom_tab_navigation.ui.dashboard.DashboardFragment"
+        android:id="@+id/navigation_groups"
+        android:name="com.codelink.flipchat.bottom_tab_navigation.ui.groups.GroupsFragment"
         android:label="@string/title_group"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_groups" />
 
 </navigation>

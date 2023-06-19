@@ -1,4 +1,4 @@
-package com.codelink.flipchat.bottom_tab_navigation.ui.dashboard;
+package com.codelink.flipchat.bottom_tab_navigation.ui.groups;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,18 +8,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.codelink.flipchat.R;
-import com.codelink.flipchat.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
-
-    private FragmentDashboardBinding binding;
+public class GroupsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_groups, container, false);
         TextView textView = view.findViewById(R.id.text_dashboard);
         textView.setText("Dashboard");
 

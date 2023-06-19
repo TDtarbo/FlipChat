@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,8 @@ public class LogIn extends AppCompatActivity {
     private TextInputEditText userEmail, password;
     private FirebaseAuth firebaseAuth;
     private LinearLayout loginError;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +80,22 @@ public class LogIn extends AppCompatActivity {
         progressDialog.show();
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("login","true");
+            editor.apply();
+
             Intent intent = new Intent(LogIn.this, BottomTabActivity.class);
             progressDialog.dismiss();
             startActivity(intent);
             finish();
+
         }).addOnFailureListener(e -> {
+
             progressDialog.dismiss();
             loginError.setVisibility(View.VISIBLE);
+
         });
     }
 }
