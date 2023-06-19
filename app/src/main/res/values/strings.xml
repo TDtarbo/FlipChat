@@ -39,4 +39,8 @@
     <string name="auth_failed">Email or password is incorrect!</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="new_to">New to</string>
+    <string name="settings">Settings</string>
+    <string name="log_out">Log out</string>
+    <string name="add_new_cha_button">Add new cha button</string>
+    <string name="new_chat">New Chat</string>
 </resources>

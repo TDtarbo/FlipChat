@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -205,9 +206,7 @@ public class UserPersonalization extends Fragment {
         progressDialog.setMessage("Almost there");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference usersCollection = db.collection("users");
-
-
+        DocumentReference usersCollection = db.collection("users").document(uid);
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("userId", uid);
@@ -216,7 +215,7 @@ public class UserPersonalization extends Fragment {
         userData.put("joinedDate", FieldValue.serverTimestamp());
         userData.put("profileUrl", profileUrl);
 
-        usersCollection.add(userData)
+        usersCollection.set(userData)
                 .addOnSuccessListener(documentReference -> {
 
                     progressDialog.dismiss();

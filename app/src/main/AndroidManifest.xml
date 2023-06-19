@@ -1,68 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission
+    android:name="android.permission.ACCESS_SURFACE_FLINGER"
+    tools:ignore="ProtectedPermissions" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
+<application
+    android:allowBackup="true"
+    android:dataExtractionRules="@xml/data_extraction_rules"
+    android:fullBackupContent="@xml/backup_rules"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.FlipChat"
+    tools:targetApi="31">
 
-    <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.FlipChat"
-        tools:targetApi="31">
+    <activity
+        android:name=".password_reset.ResetPassword"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
 
-        <activity
-            android:name=".password_reset.ResetPassword"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="http" android:host="www.flipchatapp.com"/>
-                <data android:scheme="https" android:host="www.flipchatapp.com"/>
-            </intent-filter>
-        </activity>
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
 
-        <activity
-            android:name=".password_reset.PasswordEmail"
-            android:exported="false" />
-        <activity
-            android:name=".sign_up.SignUp"
-            android:exported="false" />
-        <activity
-            android:name=".bottom_tab_navigation.BottomTabActivity"
-            android:exported="false" />
-        <activity
-            android:name=".login.LogIn"
-            android:exported="false" /> <!-- Splash Screen -->
-        <activity
-            android:name=".splash_screen.SplashScreen"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <data
+                android:scheme="http"
+                android:host="www.flipchatapp.com" />
+            <data
+                android:scheme="https"
+                android:host="www.flipchatapp.com" />
+        </intent-filter>
+    </activity>
 
-            <nav-graph android:value="@navigation/mobile_navigation" />
+    <activity
+        android:name=".password_reset.PasswordEmail"
+        android:exported="false" />
+    <activity
+        android:name=".sign_up.SignUp"
+        android:exported="false" />
+    <activity
+        android:name=".bottom_tab_navigation.BottomTabActivity"
+        android:exported="false" />
+    <activity
+        android:name=".login.LogIn"
+        android:exported="false" /> <!-- Splash Screen -->
 
-            <intent-filter>
+    <activity
+        android:name="com.codelink.flipchat.new_chat.NewChat"
+        android:exported="false"
+        android:label="New chat"/>
 
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+    <activity
+        android:name=".splash_screen.SplashScreen"
+        android:exported="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-            </intent-filter>
-        </activity> <!-- onBoarding screen -->
-        <activity
-            android:name=".welcome.WelcomeActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- Sign in screen -->
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-    </application>
+        <nav-graph android:value="@navigation/mobile_navigation" />
+
+        <intent-filter>
+
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+
+        </intent-filter>
+    </activity> <!-- onBoarding screen -->
+    <activity
+        android:name=".welcome.WelcomeActivity"
+        android:exported="false"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- Sign in screen -->
+    <meta-data
+        android:name="preloaded_fonts"
+        android:resource="@array/preloaded_fonts" />
+</application>
 
 </manifest>

@@ -7,7 +7,7 @@
         android:title="@string/title_chat" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_groups"
         android:icon="@drawable/baseline_groups_24"
         android:title="@string/title_group" />
 
