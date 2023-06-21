@@ -43,4 +43,6 @@
     <string name="log_out">Log out</string>
     <string name="add_new_cha_button">Add new cha button</string>
     <string name="new_chat">New Chat</string>
+    <string name="bio">Bio</string>
+    <string name="flipchat_question">FlipChat?</string>
 </resources>

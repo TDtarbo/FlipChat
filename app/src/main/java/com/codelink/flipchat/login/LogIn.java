@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codelink.flipchat.R;
 import com.codelink.flipchat.bottom_tab_navigation.BottomTabActivity;
@@ -29,7 +34,7 @@ public class LogIn extends AppCompatActivity {
     private TextInputEditText userEmail, password;
     private FirebaseAuth firebaseAuth;
     private LinearLayout loginError;
-
+    private boolean doubleBackPressed = false;
     public static final String SHARED_PREFS = "sharedPrefs";
 
     @Override
@@ -50,10 +55,26 @@ public class LogIn extends AppCompatActivity {
 
         //setup onclick listener for login button
         loginBtn.setOnClickListener(view -> {
+
             String emailInput = Objects.requireNonNull(userEmail.getText()).toString();
             String passwordInput = Objects.requireNonNull(password.getText()).toString();
 
-            userLogin(emailInput, passwordInput);
+            if (emailInput.isEmpty()){
+
+                userEmail.setError("Please enter your email");
+
+            } else if (passwordInput.isEmpty()){
+
+                password.setError("Please enter your password");
+
+            } else if (hasInternetConnection()) {
+                userLogin(emailInput, passwordInput);
+
+            } else {
+                Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+            }
+
+
         });
 
         //setup onclick listener for forgot password button
@@ -97,5 +118,28 @@ public class LogIn extends AppCompatActivity {
             loginError.setVisibility(View.VISIBLE);
 
         });
+    }
+
+    //check for the internet connection
+    private boolean hasInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    public void onBackPressed() {
+        if (doubleBackPressed) {
+            super.onBackPressed();
+        } else {
+            doubleBackPressed = true;
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackPressed = false;
+                }
+            }, 2000);
+        }
     }
 }

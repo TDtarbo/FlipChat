@@ -1,8 +1,15 @@
 package com.codelink.flipchat.sign_up;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.codelink.flipchat.R;
 import com.codelink.flipchat.login.LogIn;
@@ -39,10 +47,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -57,10 +66,14 @@ public class UserPersonalization extends Fragment {
     private CircleImageView pickedImage;
     private RelativeLayout imagePreview;
     private Uri imageUri;
-    private String email, password,uid,profileUrl, userNameInput;
+    private String email;
+    private String password;
+    private String uid;
+    private String profileUrl;
+    private String userNameInput;
     private FirebaseUser currentUser;
     private FirebaseAuth firebaseAuth;
-    private TextInputEditText userName;
+    private TextInputEditText userName, userBio;
     private ProgressDialog progressDialog;
     private LinearLayout personalizeContainer, completeContainer;
 
@@ -78,6 +91,7 @@ public class UserPersonalization extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         userName = view.findViewById(R.id.userName);
+        userBio = view.findViewById(R.id.userBio);
         chooseImageBtn = view.findViewById(R.id.chooseImageBtn);
         Button navigateToLoginBtn = view.findViewById(R.id.navigateToLoginBtn);
         pickedImage = view.findViewById(R.id.pickedImage);
@@ -94,7 +108,17 @@ public class UserPersonalization extends Fragment {
 
         retryBtn.setOnClickListener(view12 -> imagePicker());
 
-        signUpBtn.setOnClickListener(view13 -> userRegistration());
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (hasInternetConnection()) {
+                    userRegistration();
+                } else {
+                    Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         navigateToLoginBtn.setOnClickListener(view14 -> {
             Intent intent = new Intent(getActivity(), LogIn.class);
@@ -113,6 +137,8 @@ public class UserPersonalization extends Fragment {
                     imagePreview.setVisibility(View.VISIBLE);
                     pickedImage.setImageURI(uri);
                     imageUri = uri;
+
+                    Log.d("imagePicker", "imagePicker: " + imageUri);
                 });
     }
 
@@ -124,7 +150,7 @@ public class UserPersonalization extends Fragment {
         if (TextUtils.isEmpty(userNameInput)) {
             userName.setError("User name cannot be empty");
 
-        }else {
+        } else {
             progressDialog.setMessage("Signing you up");
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -137,7 +163,11 @@ public class UserPersonalization extends Fragment {
                             if (currentUser != null) {
 
                                 uid = currentUser.getUid();
-                                uploadImage(uid);
+                                try {
+                                    uploadImage(uid);
+                                } catch (FileNotFoundException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
 
                         } else {
@@ -164,93 +194,130 @@ public class UserPersonalization extends Fragment {
     }
 
     //uploading user profile image
-    private void uploadImage(String uid) {
+    private void uploadImage(String uid) throws FileNotFoundException {
+        if (imageUri != null) {
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-        if (imageUri != null){
-            //upload picked image as user profile image
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                    .child("profilePhotos")
-                    .child(uid);
+            if (bitmap != null) {
+                int MAX_IMAGE_SIZE = 1024; // Set your desired max image size
+                bitmap = resizeBitmap(bitmap, MAX_IMAGE_SIZE);
+                byte[] imageData = convertBitmapToByteArray(bitmap, 80);
 
-            storageReference.putFile(imageUri)
-                    .addOnCompleteListener(task -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                profileUrl = uri.toString();
-                                addUserToDatabase();
-                            })
-                            .addOnFailureListener(e -> {
-                                showGeneralErrorDialog();
-                                Log.d("ImageUploadFail", "onFailure: "+ e);
-                                progressDialog.dismiss();
-                            }));
-
+                uploadImageToStorage(uid, imageData);
+            } else {
+                handleNullBitmap();
+            }
         } else {
-
-            //set up default profile image to user
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                    .child("profilePhotos")
-                    .child("defaultUser.jpg");
-
-            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                profileUrl = uri.toString();
-                addUserToDatabase();
-            }).addOnFailureListener(e -> {
-                showGeneralErrorDialog();
-                progressDialog.dismiss();
-            });
+            setDefaultProfileImage(uid);
         }
     }
+
+    // Method to resize the bitmap to a desired maximum image size
+    private Bitmap resizeBitmap(Bitmap bitmap, int maxImageSize) {
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        if (width > maxImageSize || height > maxImageSize) {
+            float bitmapRatio = (float) width / (float) height;
+            if (bitmapRatio > 1) {
+                width = maxImageSize;
+                height = (int) (width / bitmapRatio);
+            } else {
+                height = maxImageSize;
+                width = (int) (height * bitmapRatio);
+            }
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
+    }
+
+    // Method to convert a bitmap to a byte array
+    private byte[] convertBitmapToByteArray(Bitmap bitmap, int compressionQuality) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    // Method to upload an image as a user profile image to Firebase Storage
+    private void uploadImageToStorage(String uid, byte[] imageData) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                .child("profilePhotos")
+                .child(uid);
+
+        storageReference.putBytes(imageData)
+                .addOnCompleteListener(task -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            profileUrl = uri.toString();
+                            addUserToDatabase();
+                        })
+                        .addOnFailureListener(e -> {
+                            showGeneralErrorDialog();
+                            Log.d("ImageUploadFail", "onFailure: " + e);
+                            progressDialog.dismiss();
+                        }));
+    }
+
+    // Method to handle the case when the bitmap is null
+    private void handleNullBitmap() {
+        showGeneralErrorDialog();
+        progressDialog.dismiss();
+    }
+
+    // Method to set up the default profile image for the user
+    private void setDefaultProfileImage(String uid) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                .child("profilePhotos")
+                .child("defaultUser.jpg");
+
+        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            profileUrl = uri.toString();
+            addUserToDatabase();
+        }).addOnFailureListener(e -> {
+            showGeneralErrorDialog();
+            progressDialog.dismiss();
+        });
+    }
+
 
     //add user to FireStore database along with personal info
     private void addUserToDatabase() {
 
-        progressDialog.setMessage("Almost there");
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference usersCollection = db.collection("users").document(uid);
+        progressDialog.setMessage("Almost there!");
+        CollectionReference userCollectionRef = FirebaseFirestore.getInstance().collection("users");
 
         Map<String, Object> userData = new HashMap<>();
-        userData.put("userId", uid);
+
         userData.put("userName", userNameInput);
         userData.put("email", email);
-        userData.put("joinedDate", FieldValue.serverTimestamp());
         userData.put("profileUrl", profileUrl);
+        userData.put("uid", uid);
+        userData.put("timestamp", FieldValue.serverTimestamp());
 
-        usersCollection.set(userData)
-                .addOnSuccessListener(documentReference -> {
+        String userBioInput = Objects.requireNonNull(userBio.getText()).toString().trim();
 
+        if (userBioInput.isEmpty()){
+            userData.put("bio", "Hey! I'm using FlipChat");
+        }else {
+            userData.put("bio", userBioInput);
+        }
+
+
+
+        userCollectionRef.document(uid)
+                .set(userData)
+                .addOnSuccessListener(aVoid -> {
                     progressDialog.dismiss();
-
-                    //setup animation for linear layouts
-                    personalizeContainer.setAlpha(1f);
-
-                    personalizeContainer.animate()
-                            .alpha(0f)
-                            .translationY(100f)
-                            .setDuration(300)
-                            .start();
-
-                    personalizeContainer.setVisibility(View.GONE);
-
                     completeContainer.setVisibility(View.VISIBLE);
-                    completeContainer.setAlpha(0f);
-                    completeContainer.setTranslationY(100f);
-
-                    completeContainer.animate()
-                            .alpha(1f)
-                            .translationY(0f)
-                            .setDuration(300)
-                            .setStartDelay(150)
-                            .start();
-
+                    personalizeContainer.setVisibility(View.GONE);
                 })
                 .addOnFailureListener(e -> {
-                    progressDialog.dismiss();
                     showGeneralErrorDialog();
-                    Log.d("addUserToDatabaseFail", "onFailure: "+ e);
+                    progressDialog.dismiss();
                 });
     }
 
-    //General error message
+    //show general error alert
     public void showGeneralErrorDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Error");
@@ -261,8 +328,11 @@ public class UserPersonalization extends Fragment {
         dialog.show();
     }
 
-
-
-
+    //check internet connection
+    private boolean hasInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
 
 }
