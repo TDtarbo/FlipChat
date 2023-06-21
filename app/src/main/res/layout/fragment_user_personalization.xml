@@ -85,7 +85,38 @@
                 android:layout_height="wrap_content"
                 android:height="100dp"
                 android:background="@color/white"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:maxLength="30"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/userBioLayout"
+            android:layout_width="332dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/bio"
+            android:layout_marginTop="25dp"
+            app:colorControlActivated="@color/accent"
+            app:colorControlNormal="@color/accent"
+            app:hintTextColor="@color/accent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.08"
+            app:passwordToggleTint="@color/accent"
+            app:startIconDrawable="@drawable/baseline_edit_24"
+            app:counterEnabled="true"
+            app:counterMaxLength="30">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:height="100dp"
+                android:background="@color/white"
+                android:inputType="textEmailAddress"
+                android:maxLength="30"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

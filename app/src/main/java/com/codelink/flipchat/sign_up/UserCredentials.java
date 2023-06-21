@@ -3,6 +3,7 @@ package com.codelink.flipchat.sign_up;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -31,6 +33,8 @@ public class UserCredentials extends Fragment {
     private TextInputLayout passwordLayout, cPasswordLayout;
     private TextInputEditText userEmail, password, cPassword;
     private String emailInput, passwordInput, cPasswordInput;
+
+    private boolean doubleBackPressed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -189,4 +193,21 @@ public class UserCredentials extends Fragment {
             }
         });
     }
+
+    public void onBackPressed() {
+        if (doubleBackPressed) {
+            requireActivity().onBackPressed(); // Exit the activity
+        } else {
+            doubleBackPressed = true;
+            Toast.makeText(requireContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackPressed = false;
+                }
+            }, 2000); // Reset the doubleBackPressed flag after 2 seconds
+        }
+    }
+
 }

@@ -8,11 +8,22 @@
     tools:context=".new_chat.NewChat">
 
   <TextView
-      android:id="@+id/users"
+      android:id="@+id/noUsersMessage"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:textColor="@color/txt_dark_gray"
+      android:textAlignment="center"
       app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      android:textAlignment="center"/>
+      app:layout_constraintVertical_bias="0.056" />
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/userList"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/white"
+      tools:layout_editor_absoluteX="45dp"
+      tools:layout_editor_absoluteY="224dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
